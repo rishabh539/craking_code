@@ -92,8 +92,8 @@ const FacultyGrievances = () => {
                         key={status}
                         onClick={() => setFilterStatus(status)}
                         className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all border whitespace-nowrap ${filterStatus === status
-                                ? 'bg-black text-white border-black shadow-lg'
-                                : 'bg-white text-gray-400 border-gray-100 hover:border-gray-300'
+                            ? 'bg-black text-white border-black shadow-lg'
+                            : 'bg-white text-gray-400 border-gray-100 hover:border-gray-300'
                             }`}
                     >
                         {status}
@@ -129,7 +129,7 @@ const FacultyGrievances = () => {
                                         <div className="flex flex-col gap-2">
                                             <StatusBadge status={g.status} />
                                             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded w-fit ${g.priority === 'High' ? 'bg-red-50 text-red-600' :
-                                                    g.priority === 'Medium' ? 'bg-amber-50 text-amber-600' : 'bg-green-50 text-green-600'
+                                                g.priority === 'Medium' ? 'bg-amber-50 text-amber-600' : 'bg-green-50 text-green-600'
                                                 }`}>
                                                 {g.priority} Priority
                                             </span>
@@ -143,7 +143,7 @@ const FacultyGrievances = () => {
                                                 {g.category}
                                             </span>
                                             {g.attachment && (
-                                                <a href={`http://localhost:5000/${g.attachment}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[10px] font-bold text-indigo-600 hover:underline">
+                                                <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${g.attachment}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[10px] font-bold text-indigo-600 hover:underline">
                                                     <FaPaperclip /> Attachment
                                                 </a>
                                             )}

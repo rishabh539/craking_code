@@ -64,7 +64,7 @@ const MyApplications = () => {
 
                             <div className="mt-6 space-y-4 pt-6 border-t border-gray-50">
                                 <div className="flex flex-wrap gap-4">
-                                    <a href={`http://localhost:5000/${app.resume}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+                                    <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${app.resume}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
                                         <span>📄 View Resume</span>
                                     </a>
                                     {app.portfolio && (
