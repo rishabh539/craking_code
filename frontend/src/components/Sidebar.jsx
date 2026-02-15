@@ -1,15 +1,25 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaHome, FaFileAlt, FaFileUpload, FaUsers, FaSignOutAlt, FaBullhorn } from 'react-icons/fa';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import {
+    FaHome,
+    FaFileAlt,
+    FaFileUpload,
+    FaBullhorn,
+    FaBriefcase,
+    FaUsers,
+    FaSignOutAlt,
+    FaTasks,
+    FaLightbulb
+} from 'react-icons/fa';
 
 const Sidebar = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     const handleLogout = () => {
-        localStorage.removeItem('user');
-        navigate('/login');
+        logout();
     };
 
     const isActive = (path) => location.pathname === path;
@@ -29,15 +39,78 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/student/grievances" className={linkClass('/student/grievances')}>
+                                <Link to="/student/ledger" className={linkClass('/student/ledger')}>
+                                    <FaTasks className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Scholar's Ledger</span>
+                                </Link>
+                            </li>
+
+                            {/* Academic Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Academic</p>
+                            </li>
+                            <li>
+                                <Link to="/student/courses/enroll" className={linkClass('/student/courses/enroll')}>
                                     <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
-                                    <span className="ml-3">My Grievances</span>
+                                    <span className="ml-3">Enroll in Courses</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/student/notes" className={linkClass('/student/notes')}>
+                                <Link to="/student/courses/my" className={linkClass('/student/courses/my')}>
                                     <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
-                                    <span className="ml-3">Academic Notes</span>
+                                    <span className="ml-3">My Courses</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/student/attendance" className={linkClass('/student/attendance')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">My Attendance</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/student/calendar" className={linkClass('/student/calendar')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Calendar</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/student/resources" className={linkClass('/student/resources')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Resource Library</span>
+                                </Link>
+                            </li>
+
+                            {/* Opportunities Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Opportunities</p>
+                            </li>
+                            <li>
+                                <Link to="/student/opportunities" className={linkClass('/student/opportunities')}>
+                                    <FaLightbulb className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Opportunity Hub</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/student/applications" className={linkClass('/student/applications')}>
+                                    <FaBriefcase className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Applied Jobs/Projects</span>
+                                </Link>
+                            </li>
+
+                            {/* Grievance Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Grievances</p>
+                            </li>
+                            <li>
+                                <Link to="/student/submit-grievance" className={linkClass('/student/submit-grievance')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Submit Grievance</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/student/grievances" className={linkClass('/student/grievances')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">My Grievances</span>
                                 </Link>
                             </li>
                         </>
@@ -51,10 +124,62 @@ const Sidebar = () => {
                                     <span className="ml-3">Dashboard</span>
                                 </Link>
                             </li>
+
+                            {/* Academic Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Academic</p>
+                            </li>
                             <li>
-                                <Link to="/faculty/notes" className={linkClass('/faculty/notes')}>
+                                <Link to="/faculty/courses" className={linkClass('/faculty/courses')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">My Courses</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/attendance" className={linkClass('/faculty/attendance')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Attendance</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/resources" className={linkClass('/faculty/resources')}>
                                     <FaFileUpload className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
-                                    <span className="ml-3">Upload Notes</span>
+                                    <span className="ml-3">Upload Resources</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/events" className={linkClass('/faculty/events')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Event Management</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/announcements" className={linkClass('/faculty/announcements')}>
+                                    <FaBullhorn className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Announcements</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/opportunities" className={linkClass('/faculty/opportunities')}>
+                                    <FaBriefcase className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Opportunity Board</span>
+                                </Link>
+                            </li>
+
+                            {/* Grievance Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Grievances</p>
+                            </li>
+                            <li>
+                                <Link to="/faculty/grievances" className={linkClass('/faculty/grievances')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Assigned Grievances</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faculty/report" className={linkClass('/faculty/report')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Report Issue</span>
                                 </Link>
                             </li>
                         </>
@@ -67,6 +192,34 @@ const Sidebar = () => {
                                     <FaHome className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
                                     <span className="ml-3">Dashboard</span>
                                 </Link>
+                            </li>
+
+                            {/* Academic Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">Academic</p>
+                            </li>
+                            <li>
+                                <Link to="/admin/courses" className={linkClass('/admin/courses')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Manage Courses</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/admin/resources" className={linkClass('/admin/resources')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Resource Approval</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/admin/events" className={linkClass('/admin/events')}>
+                                    <FaFileAlt className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                    <span className="ml-3">Event Management</span>
+                                </Link>
+                            </li>
+
+                            {/* System Section */}
+                            <li className="pt-4 mt-4 border-t border-gray-200">
+                                <p className="px-2 text-xs font-semibold text-gray-400 uppercase">System</p>
                             </li>
                             <li>
                                 <Link to="/admin/users" className={linkClass('/admin/users')}>

@@ -20,6 +20,46 @@ const userSchema = mongoose.Schema({
         enum: ['student', 'faculty', 'admin'],
         default: 'student',
     },
+    department: {
+        type: String,
+        enum: ['Computer Science', 'Electrical', 'Mechanical', 'Civil', 'Administration', 'General'],
+        default: 'General',
+    },
+    rollNumber: {
+        type: String,
+        unique: true,
+        sparse: true, // Only for students
+    },
+    employeeId: {
+        type: String,
+        unique: true,
+        sparse: true, // For faculty and admin
+    },
+    semester: {
+        type: Number,
+        min: 1,
+        max: 8,
+        // Only applicable for students
+    },
+    currentCredits: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    maxCredits: {
+        type: Number,
+        default: 24,
+        // Maximum credits a student can enroll in per semester
+    },
+    status: {
+        type: String,
+        enum: ['Active', 'Deactivated'],
+        default: 'Active'
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 }, {
     timestamps: true,
 });
@@ -32,6 +72,7 @@ userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
     }
+
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });

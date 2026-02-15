@@ -15,26 +15,41 @@ const protect = async (req, res, next) => {
 
             req.user = await User.findById(decoded.id).select('-password');
 
-            next();
+            if (!req.user) {
+                return res.status(401).json({ message: 'User not found - account may have been deleted' });
+            }
+
+            // Verify the user account is still active
+            if (req.user.status === 'Deactivated' || req.user.isActive === false) {
+                return res.status(401).json({ message: 'Account has been deactivated' });
+            }
+
+            return next();
         } catch (error) {
-            console.error(error);
-            res.status(401).json({ message: 'Not authorized, token failed' });
+            console.error('Token verification failed:', error.message);
+            if (error.name === 'TokenExpiredError') {
+                return res.status(401).json({ message: 'Token expired, please login again' });
+            }
+            return res.status(401).json({ message: 'Not authorized, token failed' });
         }
     }
 
     if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
 };
 
 const authorize = (...roles) => {
     return (req, res, next) => {
-        if (!req.user || !roles.includes(req.user.role)) {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authenticated' });
+        }
+        if (!roles.includes(req.user.role)) {
             return res.status(403).json({
-                message: `User role ${req.user ? req.user.role : 'unknown'} is not authorized with this action`,
+                message: `User role '${req.user.role}' is not authorized for this action`,
             });
         }
-        next();
+        return next();
     };
 };
 

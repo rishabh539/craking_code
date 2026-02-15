@@ -1,15 +1,25 @@
-import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = ({ allowedRoles }) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            </div>
+        );
+    }
 
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
-        return <Navigate to="/login" replace />;
+        // Redirect to their respective dashboard instead of login
+        const dashboard = user.role === 'admin' ? '/admin' : user.role === 'faculty' ? '/faculty' : '/student';
+        return <Navigate to={dashboard} replace />;
     }
 
     return <Outlet />;

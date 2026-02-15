@@ -4,7 +4,7 @@ const { createAnnouncement, getAnnouncements } = require('../controllers/announc
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 router.route('/')
-    .post(protect, authorize('admin'), createAnnouncement)
+    .post(protect, authorize('admin', 'faculty'), createAnnouncement)
     .get(protect, getAnnouncements);
 
 module.exports = router;

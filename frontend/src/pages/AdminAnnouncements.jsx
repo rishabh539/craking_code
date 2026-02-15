@@ -7,8 +7,13 @@ const AdminAnnouncements = () => {
     const [content, setContent] = useState('');
     const [announcements, setAnnouncements] = useState([]);
 
+    const [scope, setScope] = useState('Institutional');
+    const [courseId, setCourseId] = useState('');
+    const [courses, setCourses] = useState([]);
+
     useEffect(() => {
         fetchAnnouncements();
+        fetchCourses();
     }, []);
 
     const fetchAnnouncements = async () => {
@@ -20,12 +25,23 @@ const AdminAnnouncements = () => {
         }
     };
 
+    const fetchCourses = async () => {
+        try {
+            const { data } = await API.get('/courses');
+            setCourses(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await API.post('/announcements', { title, content });
+            await API.post('/announcements', { title, content, scope, courseId: scope === 'Course' ? courseId : undefined });
             setTitle('');
             setContent('');
+            setScope('Institutional');
+            setCourseId('');
             fetchAnnouncements();
         } catch (error) {
             console.error(error);
@@ -36,7 +52,36 @@ const AdminAnnouncements = () => {
         <Layout>
             <h2 className="mb-4 text-2xl font-bold">Manage Announcements</h2>
 
-            <form onSubmit={handleSubmit} className="mb-8 space-y-4 max-w-lg">
+            <form onSubmit={handleSubmit} className="mb-8 space-y-4 max-w-lg bg-gray-50 p-6 rounded-lg border">
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Scope</label>
+                        <select
+                            className="w-full px-3 py-2 border rounded"
+                            value={scope}
+                            onChange={(e) => setScope(e.target.value)}
+                        >
+                            <option value="Institutional">Institutional (All)</option>
+                            <option value="Course">Specific Course</option>
+                        </select>
+                    </div>
+                    {scope === 'Course' && (
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
+                            <select
+                                className="w-full px-3 py-2 border rounded"
+                                required
+                                value={courseId}
+                                onChange={(e) => setCourseId(e.target.value)}
+                            >
+                                <option value="">Select a course...</option>
+                                {courses.map(c => (
+                                    <option key={c._id} value={c._id}>{c.courseCode} - {c.courseName}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+                </div>
                 <div>
                     <input
                         type="text"
