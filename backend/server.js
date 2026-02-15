@@ -34,6 +34,7 @@ app.get('/', (req, res) => {
 app.use('/uploads', express.static('uploads'));
 
 // API Routes
+console.log('Mounting Auth Routes...');
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/grievances', require('./routes/grievanceRoutes'));
 app.use('/api/resources', require('./routes/resourceRoutes'));
