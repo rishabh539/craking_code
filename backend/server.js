@@ -10,17 +10,22 @@ connectDB();
 
 const app = express();
 
+// CORS configuration - MUST BE FIRST (before body parsing and routes)
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://craking-code.vercel.app',
+        'https://craking-code-q52obcwg3-rishabhs-projects-e12711db.vercel.app'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Body parsing with size limits
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// CORS configuration for multi-user support
-app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'https://craking-code.vercel.app'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 app.get('/', (req, res) => {
     res.send('API is running...');
