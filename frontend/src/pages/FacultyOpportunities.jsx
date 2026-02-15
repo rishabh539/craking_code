@@ -223,7 +223,7 @@ const FacultyOpportunities = () => {
                                         </select>
                                     </div>
                                     <div className="mt-3 flex gap-2">
-                                        <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${app.resume}`} target="_blank" rel="noreferrer" className="text-xs text-indigo-600 font-bold hover:underline">View Resume</a>
+                                        <a href={`${import.meta.env.PROD ? 'https://craking-backend.onrender.com' : 'http://localhost:5000'}/${app.resume}`} target="_blank" rel="noreferrer" className="text-xs text-indigo-600 font-bold hover:underline">View Resume</a>
                                         {app.portfolio && <a href={app.portfolio} target="_blank" rel="noreferrer" className="text-xs text-indigo-600 font-bold hover:underline">Portfolio</a>}
                                     </div>
 

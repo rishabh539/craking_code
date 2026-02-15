@@ -1,8 +1,12 @@
 import axios from 'axios';
 // import { toast } from 'react-hot-toast'; // Optional: for user feedback
 
+const BASE_URL = import.meta.env.PROD
+    ? 'https://craking-backend.onrender.com/api'
+    : (import.meta.env.VITE_API_URL || 'http://localhost:5000/api');
+
 const API = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL: BASE_URL,
     withCredentials: true,
     timeout: 10000,
     headers: {

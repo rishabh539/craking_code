@@ -143,7 +143,7 @@ const FacultyGrievances = () => {
                                                 {g.category}
                                             </span>
                                             {g.attachment && (
-                                                <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${g.attachment}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[10px] font-bold text-indigo-600 hover:underline">
+                                                <a href={`${import.meta.env.PROD ? 'https://craking-backend.onrender.com' : 'http://localhost:5000'}/${g.attachment}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[10px] font-bold text-indigo-600 hover:underline">
                                                     <FaPaperclip /> Attachment
                                                 </a>
                                             )}
